@@ -1,8 +1,7 @@
-import { Button } from "@/components/ui/button";
-import React from "react";
+import { AuthScreen } from "@/features/auth/components/auth-screen";
 
 const Home = () => {
-  return <Button variant={"slack"}>Home</Button>;
+  return <AuthScreen />;
 };
 
 export default Home;
