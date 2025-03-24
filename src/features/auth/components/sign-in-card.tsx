@@ -1,5 +1,6 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { useAuthActions } from "@convex-dev/auth/react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,8 +19,18 @@ interface SignInCardProps {
 }
 
 export const SignInCard = ({ setState }: SignInCardProps) => {
+  const { signIn } = useAuthActions();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [pending, setPending] = useState(false);
+
+  const onProviderSignin = (value: "github" | "google") => {
+    setPending(true);
+    signIn(value).finally(() => {
+      setPending(false);
+    });
+  };
 
   return (
     <Card className="w-full h-full p-8">
@@ -32,7 +43,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
       <CardContent className="space-y-5 px-0 pb-0">
         <form className="space-y-2.5">
           <Input
-            disabled={false}
+            disabled={pending}
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -42,7 +53,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             required
           />
           <Input
-            disabled={false}
+            disabled={pending}
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
@@ -51,14 +62,20 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             placeholder="Password"
             required
           />
-          <Button type="submit" className="w-full" size={"lg"} disabled={false}>
+          <Button
+            type="submit"
+            className="w-full"
+            size={"lg"}
+            disabled={pending}
+          >
             Continue
           </Button>
         </form>
         <Separator />
         <div className="flex flex-col gap-y-2.5">
           <Button
-            disabled={false}
+            disabled={pending}
+            onClick={() => onProviderSignin("google")}
             onChange={() => {}}
             variant={"outline"}
             size={"lg"}
@@ -69,7 +86,8 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
           </Button>
 
           <Button
-            disabled={false}
+            disabled={pending}
+            onClick={() => onProviderSignin("github")}
             onChange={() => {}}
             variant={"outline"}
             size={"lg"}
