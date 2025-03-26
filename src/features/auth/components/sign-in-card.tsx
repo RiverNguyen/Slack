@@ -14,6 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { SignInFlow } from "../type";
 import { useState } from "react";
+import Image from "next/image";
+import { Wordmark } from "@/config/images";
 
 interface SignInCardProps {
   setState: (state: SignInFlow) => void;
@@ -50,10 +52,15 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
   return (
     <Card className="w-full h-full p-8">
       <CardHeader className="px-0 pt-0">
-        <CardTitle>Login to continue</CardTitle>
-        <CardDescription>
-          Use your email or another service to continue
-        </CardDescription>
+        <div className="w-full flex flex-col items-center justify-center gap-y-4">
+          <Image src={Wordmark} alt="logo" width={120} height={60} />
+          <section className="text-center space-y-2">
+            <CardTitle>Login to continue</CardTitle>
+            <CardDescription>
+              Use your email or another service to continue
+            </CardDescription>
+          </section>
+        </div>
       </CardHeader>
       {!!error && (
         <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-6">
