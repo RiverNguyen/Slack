@@ -31,3 +31,22 @@ export const get = query({
     return await ctx.db.query("workspaces").collect();
   },
 });
+
+export const getById = query({
+  args: { id: v.id("workspaces") },
+  handler: async (ctx, { id }) => {
+    const useId = await getAuthUserId(ctx);
+
+    if (!useId) {
+      throw new ConvexError("User not authenticated");
+    }
+
+    const workspace = await ctx.db.get(id);
+
+    if (!workspace) {
+      throw new ConvexError("Workspace not found");
+    }
+
+    return workspace;
+  },
+});
