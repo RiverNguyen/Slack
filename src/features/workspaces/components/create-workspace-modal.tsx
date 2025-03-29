@@ -11,8 +11,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { useCreateWorkspace } from "../api/use-create-workspace";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const CreateWorkspaceModal = () => {
+  const router = useRouter();
   const [open, setOpen] = useCreateWorkspaceModal();
   const [name, setName] = useState("");
 
@@ -20,6 +23,7 @@ export const CreateWorkspaceModal = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setName("");
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,7 +33,9 @@ export const CreateWorkspaceModal = () => {
       { name },
       {
         onSuccess(data) {
-          console.log(data);
+          toast.success("Workspace created successfully");
+          router.push(`/workspace/${data}`);
+          handleClose();
         },
       }
     );
