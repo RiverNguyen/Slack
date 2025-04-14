@@ -91,8 +91,6 @@ export const getById = query({
       )
       .unique();
 
-    console.log("member", member);
-
     if (!member) {
       return null;
     }
