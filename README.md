@@ -1,4 +1,14 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Project Name
+
+This is a [Next.js](https://nextjs.org/) project with support for [Convex](https://convex.dev/), [Tailwind CSS](https://tailwindcss.com/), and other modern web development tools.
+
+## Features
+
+- **Next.js**: A React framework for building server-rendered and static web applications.
+- **Convex**: A backend-as-a-service for managing data and authentication.
+- **Tailwind CSS**: A utility-first CSS framework for styling.
+- **TypeScript**: Strongly typed JavaScript for better developer experience.
+- **PostCSS**: A tool for transforming CSS with JavaScript plugins.
 
 ## Getting Started
 
