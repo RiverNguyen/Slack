@@ -44,6 +44,49 @@ export const create = mutation({
   },
 });
 
+export const join = mutation({
+  args: {
+    joinCode: v.string(),
+    workspaceId: v.id("workspaces"),
+  },
+  handler: async (ctx, { joinCode, workspaceId }) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new ConvexError("User not authenticated");
+    }
+
+    const workspace = await ctx.db.get(workspaceId);
+
+    if (!workspace) {
+      throw new ConvexError("Workspace not found");
+    }
+
+    if (workspace.joinCode !== joinCode.toLowerCase()) {
+      throw new ConvexError("Invalid join code");
+    }
+
+    const existingMember = await ctx.db
+      .query("members")
+      .withIndex("by_workspace_id_user_id", (q) =>
+        q.eq("workspaceId", workspaceId).eq("userId", userId)
+      )
+      .unique();
+
+    if (existingMember) {
+      throw new ConvexError("User already a member of this workspace");
+    }
+
+    await ctx.db.insert("members", {
+      userId,
+      workspaceId: workspace._id,
+      role: "member",
+    });
+
+    return workspace._id;
+  },
+});
+
 export const newJoinCode = mutation({
   args: {
     workspaceId: v.id("workspaces"),
